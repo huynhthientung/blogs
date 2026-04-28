@@ -7,7 +7,7 @@ interface Props {
   description?: string;
 }
 
-const { title, description = "Tung Huynh's developer blog" } = Astro.props;
+const { title, description = "Huynh Thien Tung's developer blog" } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const navLinks = [
@@ -80,7 +80,7 @@ const navLinks = [
     <footer class="border-t border-zinc-200 dark:border-zinc-800 mt-24">
       <div class="max-w-4xl mx-auto px-6 py-8 text-center text-sm text-zinc-500 dark:text-zinc-400">
         <p>
-          &copy; {new Date().getFullYear()} Tung Huynh. All rights reserved.
+          &copy; {new Date().getFullYear()} Huynh Thien Tung. All rights reserved.
           &nbsp;·&nbsp;
           <a
             href="https://huynhthientung.com"
