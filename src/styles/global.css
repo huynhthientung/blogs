@@ -5,27 +5,27 @@
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme {
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-sans:  "Inter",        system-ui, -apple-system, sans-serif;
+  --font-serif: "Lora",         Georgia,   serif;
+  --font-mono:  "JetBrains Mono", ui-monospace, monospace;
 
   /*
-   * Soften the dark theme — replace Tailwind's near-black zinc values with a
-   * GitHub-dark-inspired scale. These greys are only used in dark: utilities
-   * so light mode is unaffected.
+   * Medium-inspired dark palette — warmer, softer than GitHub dark.
+   * Only used inside dark: utility classes so light mode is unaffected.
    */
-  --color-zinc-950: #0d1117;   /* body bg       was #09090b */
-  --color-zinc-900: #161b22;   /* card bg        was #18181b */
-  --color-zinc-800: #21262d;   /* borders        was #27272a */
-  --color-zinc-700: #30363d;   /* border hover   was #3f3f46 */
+  --color-zinc-950: #1c1c1c;   /* body bg     */
+  --color-zinc-900: #242424;   /* card bg     */
+  --color-zinc-800: #2d2d2d;   /* borders     */
+  --color-zinc-700: #383838;   /* border hover*/
 }
 
 /* ── Base readability ── */
 html {
-  font-size: 17px;          /* bump from browser default 16px */
-  line-height: 1.75;        /* more breathing room than Tailwind's 1.5 reset */
+  font-size: 17px;
+  line-height: 1.75;
 }
 
-/* Smooth theme transition — class toggled by JS on click only */
+/* Smooth theme transition — only on user toggle */
 .theme-transition,
 .theme-transition *,
 .theme-transition *::before,
@@ -33,43 +33,38 @@ html {
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
 }
 
-/* ── Shiki dual-theme: follow data-theme, not OS preference ── */
+/* ── Shiki dual-theme ── */
 html[data-theme="light"] { --astro-code-color-background: #f6f8fa; }
 /*
- * In dark mode use a slightly elevated surface (#161b22) so code blocks
- * stand out from the body background (#0d1117).
+ * Slightly elevated from body (#1c1c1c) so code blocks stay distinct.
  */
-html[data-theme="dark"]  { --astro-code-color-background: #161b22; }
+html[data-theme="dark"]  { --astro-code-color-background: #262626; }
 
 html[data-theme="light"] .astro-code-themes span { color: var(--shiki-light) !important; }
 html[data-theme="dark"]  .astro-code-themes span { color: var(--shiki-dark)  !important; }
 
-/* ── Prose dark-mode overrides ── */
-/*
- * prose-invert defaults to near-white text which causes eye strain.
- * Override with GitHub dark palette values (~9–11:1 contrast, WCAG AAA).
- */
+/* ── Prose dark-mode overrides — Medium palette ── */
 [data-theme="dark"] .prose {
-  --tw-prose-body:         #c9d1d9;
-  --tw-prose-headings:     #e6edf3;
-  --tw-prose-lead:         #b1bac4;
-  --tw-prose-links:        #79b8ff;
-  --tw-prose-bold:         #e6edf3;
-  --tw-prose-counters:     #8b949e;
-  --tw-prose-bullets:      #484f58;
-  --tw-prose-hr:           #21262d;
-  --tw-prose-quotes:       #b1bac4;
-  --tw-prose-quote-borders:#30363d;
-  --tw-prose-captions:     #8b949e;
-  --tw-prose-code:         #c9d1d9;
-  --tw-prose-pre-bg:       #161b22;
-  --tw-prose-th-borders:   #30363d;
-  --tw-prose-td-borders:   #21262d;
+  --tw-prose-body:         #e8e6e3;
+  --tw-prose-headings:     #f2f2f2;
+  --tw-prose-lead:         #c4c2bf;
+  --tw-prose-links:        #3ab549;
+  --tw-prose-bold:         #f2f2f2;
+  --tw-prose-counters:     #9c9c9c;
+  --tw-prose-bullets:      #505050;
+  --tw-prose-hr:           #2d2d2d;
+  --tw-prose-quotes:       #c4c2bf;
+  --tw-prose-quote-borders:#383838;
+  --tw-prose-captions:     #9c9c9c;
+  --tw-prose-code:         #e8e6e3;
+  --tw-prose-pre-bg:       #262626;
+  --tw-prose-th-borders:   #383838;
+  --tw-prose-td-borders:   #2d2d2d;
 }
 
-/* ── Active TOC link ── */
-.toc-link.active { color: #3b82f6; border-left-color: #3b82f6 !important; }
-[data-theme="dark"] .toc-link.active { color: #79b8ff; border-left-color: #79b8ff !important; }
+/* ── Active TOC link — Medium green ── */
+.toc-link.active { color: #1a8917; border-left-color: #1a8917 !important; }
+[data-theme="dark"] .toc-link.active { color: #4ade80; border-left-color: #4ade80 !important; }
 
 /* ── Reading progress bar ── */
 #reading-progress { transition: none; }
