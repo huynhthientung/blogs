@@ -1,0 +1,91 @@
+You are a senior frontend engineer and UI/UX designer.
+
+Your task is to redesign an existing Astro-based blog to achieve a modern, clean, and highly readable aesthetic comparable to high-quality blogs like Medium, Vercel, or Notion.
+
+## Core Goals
+
+* Prioritize readability, simplicity, and visual hierarchy
+* Maintain fast performance (minimal JavaScript, Astro-first approach)
+* Ensure responsive design (mobile-first)
+* Deliver a premium, polished feel
+
+## Tech Stack Constraints
+
+* Astro (required)
+* Tailwind CSS (required)
+* MDX for content
+* Optional: React components via Astro Islands (only when necessary)
+* Avoid heavy client-side JavaScript
+
+## Design Principles
+
+1. Typography-first:
+
+   * Use high-quality fonts (e.g., Inter for body, Merriweather for reading, JetBrains Mono for code)
+   * Max content width: 650–750px
+   * Line height: ~1.7–1.9
+   * Clear heading hierarchy
+
+2. Layout:
+
+   * Clean single-column reading layout
+   * Optional right sidebar for:
+
+     * Table of contents
+     * Recent posts
+   * Generous whitespace and spacing
+
+3. Visual Enhancements:
+
+   * Add cover image for each post
+   * Styled code blocks (syntax highlighting, padding, rounded corners)
+   * Subtle hover effects and transitions (no heavy animations)
+
+4. Dark Mode:
+
+   * Implement system-based + toggle switch
+   * Ensure good contrast and readability
+
+5. Components:
+
+   * Reusable UI components (card, button, tag, header, footer)
+   * Use a clean design system (inspired by shadcn/ui or similar)
+
+6. Navigation:
+
+   * Simple top navigation bar
+   * Clear branding (logo/title)
+   * Minimal distractions
+
+7. Performance:
+
+   * Keep Astro static-first
+   * Only hydrate components when necessary
+   * Optimize images (lazy loading, proper sizing)
+
+## Content Experience
+
+* Blog posts must feel comfortable for long reading sessions
+* Use consistent spacing between paragraphs, headings, and media
+* Add optional features:
+
+  * Reading progress bar
+  * Table of contents (auto-generated)
+  * Tag system
+
+## Anti-Patterns (Avoid)
+
+* Cluttered UI
+* Too many colors or inconsistent theme
+* Heavy animations or unnecessary JS
+* Narrow line spacing or overly wide text blocks
+* Default/unstyled Markdown output
+
+## Output Expectation
+
+* Clean Astro component structure
+* Tailwind-based styling
+* Reusable layout (BaseLayout, BlogLayout, PostCard, etc.)
+* Visually appealing blog homepage and post page
+
+Your output should transform the blog into a modern, elegant, and highly readable product while preserving Astro’s performance advantages.

@@ -1,0 +1,113 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import TagBadge from '../components/TagBadge.astro';
+import ReadingProgress from '../components/ReadingProgress.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  tags?: string[];
+  coverImage?: string;
+  coverAlt?: string;
+  headings?: Heading[];
+}
+
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  tags = [],
+  coverImage,
+  coverAlt,
+  headings = [],
+} = Astro.props;
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+const hasTOC = headings.filter(h => h.depth >= 2 && h.depth <= 3).length > 1;
+---
+
+<BaseLayout {title} {description}>
+  <ReadingProgress />
+
+  <div class="max-w-5xl mx-auto px-6 py-14">
+    <div class={hasTOC ? 'lg:grid lg:grid-cols-[1fr_220px] lg:gap-16' : 'max-w-[700px] mx-auto'}>
+
+      <!-- Main article -->
+      <article>
+        <!-- Post header -->
+        <header class="mb-10">
+          <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-zinc-500 dark:text-zinc-400 font-medium mb-5">
+            <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
+            {updatedDate && (
+              <>
+                <span aria-hidden="true">·</span>
+                <span>Updated {fmt(updatedDate)}</span>
+              </>
+            )}
+          </div>
+
+          <h1 class="text-4xl sm:text-[2.75rem] font-bold tracking-tight leading-[1.15] text-zinc-900 dark:text-zinc-100 mb-4">
+            {title}
+          </h1>
+
+          <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed mb-6">
+            {description}
+          </p>
+
+          {tags.length > 0 && (
+            <div class="flex flex-wrap gap-2">
+              {tags.map(tag => <TagBadge {tag} />)}
+            </div>
+          )}
+        </header>
+
+        {coverImage && (
+          <figure class="mb-12 -mx-6 sm:mx-0">
+            <img
+              src={coverImage}
+              alt={coverAlt ?? title}
+              class="w-full aspect-[2/1] object-cover sm:rounded-2xl"
+              loading="eager"
+              decoding="async"
+            />
+          </figure>
+        )}
+
+        <!-- Prose content -->
+        <div class="prose prose-zinc dark:prose-invert prose-lg max-w-none
+                    prose-headings:font-bold prose-headings:tracking-tight prose-headings:scroll-mt-20
+                    prose-h2:text-2xl prose-h3:text-xl
+                    prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline
+                    prose-code:font-mono prose-code:text-sm prose-code:bg-zinc-100 dark:prose-code:bg-zinc-800 prose-code:rounded prose-code:px-1 prose-code:py-0.5 prose-code:before:content-none prose-code:after:content-none
+                    prose-pre:rounded-xl prose-pre:border prose-pre:border-zinc-200 dark:prose-pre:border-zinc-800 prose-pre:!bg-transparent
+                    prose-img:rounded-xl prose-img:shadow-md
+                    prose-blockquote:border-l-blue-500 prose-blockquote:not-italic prose-blockquote:text-zinc-600 dark:prose-blockquote:text-zinc-400
+                    prose-strong:text-zinc-900 dark:prose-strong:text-zinc-100
+                    prose-hr:border-zinc-200 dark:prose-hr:border-zinc-800">
+          <slot />
+        </div>
+      </article>
+
+      <!-- Sidebar: table of contents (desktop only) -->
+      {hasTOC && (
+        <aside class="hidden lg:block">
+          <div class="sticky top-24">
+            <TableOfContents {headings} />
+          </div>
+        </aside>
+      )}
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,21 @@
+---
+---
+<div
+  id="reading-progress"
+  class="fixed top-0 left-0 z-50 h-[2px] bg-blue-500 w-0"
+  role="progressbar"
+  aria-label="Reading progress"
+></div>
+
+<script>
+  const bar = document.getElementById('reading-progress') as HTMLElement | null;
+  if (bar) {
+    const update = () => {
+      const scrolled = window.scrollY;
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = total > 0 ? `${(scrolled / total) * 100}%` : '0%';
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+</script>

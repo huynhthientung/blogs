@@ -1,0 +1,75 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Dark mode follows data-theme attribute on <html> */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme {
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /*
+   * Soften the dark theme — replace Tailwind's near-black zinc values with a
+   * GitHub-dark-inspired scale. These greys are only used in dark: utilities
+   * so light mode is unaffected.
+   */
+  --color-zinc-950: #0d1117;   /* body bg       was #09090b */
+  --color-zinc-900: #161b22;   /* card bg        was #18181b */
+  --color-zinc-800: #21262d;   /* borders        was #27272a */
+  --color-zinc-700: #30363d;   /* border hover   was #3f3f46 */
+}
+
+/* ── Base readability ── */
+html {
+  font-size: 17px;          /* bump from browser default 16px */
+  line-height: 1.75;        /* more breathing room than Tailwind's 1.5 reset */
+}
+
+/* Smooth theme transition — class toggled by JS on click only */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
+}
+
+/* ── Shiki dual-theme: follow data-theme, not OS preference ── */
+html[data-theme="light"] { --astro-code-color-background: #f6f8fa; }
+/*
+ * In dark mode use a slightly elevated surface (#161b22) so code blocks
+ * stand out from the body background (#0d1117).
+ */
+html[data-theme="dark"]  { --astro-code-color-background: #161b22; }
+
+html[data-theme="light"] .astro-code-themes span { color: var(--shiki-light) !important; }
+html[data-theme="dark"]  .astro-code-themes span { color: var(--shiki-dark)  !important; }
+
+/* ── Prose dark-mode overrides ── */
+/*
+ * prose-invert defaults to near-white text which causes eye strain.
+ * Override with GitHub dark palette values (~9–11:1 contrast, WCAG AAA).
+ */
+[data-theme="dark"] .prose {
+  --tw-prose-body:         #c9d1d9;
+  --tw-prose-headings:     #e6edf3;
+  --tw-prose-lead:         #b1bac4;
+  --tw-prose-links:        #79b8ff;
+  --tw-prose-bold:         #e6edf3;
+  --tw-prose-counters:     #8b949e;
+  --tw-prose-bullets:      #484f58;
+  --tw-prose-hr:           #21262d;
+  --tw-prose-quotes:       #b1bac4;
+  --tw-prose-quote-borders:#30363d;
+  --tw-prose-captions:     #8b949e;
+  --tw-prose-code:         #c9d1d9;
+  --tw-prose-pre-bg:       #161b22;
+  --tw-prose-th-borders:   #30363d;
+  --tw-prose-td-borders:   #21262d;
+}
+
+/* ── Active TOC link ── */
+.toc-link.active { color: #3b82f6; border-left-color: #3b82f6 !important; }
+[data-theme="dark"] .toc-link.active { color: #79b8ff; border-left-color: #79b8ff !important; }
+
+/* ── Reading progress bar ── */
+#reading-progress { transition: none; }

@@ -1,0 +1,58 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Group posts by year
+const byYear = posts.reduce<Record<number, typeof posts>>((acc, post) => {
+  const year = post.data.pubDate.getFullYear();
+  if (!acc[year]) acc[year] = [];
+  acc[year].push(post);
+  return acc;
+}, {});
+
+const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
+---
+
+<BaseLayout title="Blog — Tung Huynh" description="All posts by Tung Huynh">
+  <div class="max-w-4xl mx-auto px-6 py-14">
+
+    <!-- Page header -->
+    <div class="mb-14">
+      <h1 class="text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-3">
+        Blog
+      </h1>
+      <p class="text-zinc-500 dark:text-zinc-400">
+        {posts.length} post{posts.length !== 1 ? 's' : ''} on software development, tools, and ideas.
+      </p>
+    </div>
+
+    <!-- Posts grouped by year -->
+    <div class="space-y-16">
+      {years.map(year => (
+        <section>
+          <h2 class="text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-6">
+            {year}
+          </h2>
+          <div class="grid gap-5 sm:grid-cols-2">
+            {byYear[year].map(post => (
+              <PostCard
+                title={post.data.title}
+                description={post.data.description}
+                pubDate={post.data.pubDate}
+                tags={post.data.tags}
+                slug={post.id.replace(/\.mdx?$/, '')}
+                category={post.data.category}
+                coverImage={post.data.coverImage}
+                coverAlt={post.data.coverAlt}
+              />
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

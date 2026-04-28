@@ -1,0 +1,68 @@
+---
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+}
+
+const { headings } = Astro.props;
+const items = headings.filter(h => h.depth >= 2 && h.depth <= 3);
+---
+
+{items.length > 1 && (
+  <nav aria-label="Table of contents">
+    <p class="text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-4">
+      On this page
+    </p>
+    <ul class="space-y-0.5 text-sm">
+      {items.map(h => (
+        <li style={`padding-left: ${(h.depth - 2) * 12}px`}>
+          <a
+            href={`#${h.slug}`}
+            class="toc-link block py-1.5 px-3 -ml-px
+                   border-l-2 border-zinc-200 dark:border-zinc-800
+                   text-zinc-500 dark:text-zinc-400
+                   hover:text-zinc-900 dark:hover:text-zinc-100
+                   hover:border-zinc-400 dark:hover:border-zinc-600
+                   transition-colors leading-snug"
+            data-heading={h.slug}
+          >
+            {h.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+
+<script>
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.toc-link'));
+
+  if (links.length > 0) {
+    const targets = links
+      .map(link => ({
+        link,
+        el: document.getElementById(link.dataset.heading ?? ''),
+      }))
+      .filter((item): item is { link: HTMLAnchorElement; el: HTMLElement } => item.el !== null);
+
+    const observer = new IntersectionObserver(
+      entries => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            links.forEach(l => l.classList.remove('active'));
+            const hit = targets.find(t => t.el === entry.target);
+            hit?.link.classList.add('active');
+          }
+        }
+      },
+      { rootMargin: '-10% 0% -80% 0%', threshold: 0 },
+    );
+
+    targets.forEach(({ el }) => observer.observe(el));
+  }
+</script>
