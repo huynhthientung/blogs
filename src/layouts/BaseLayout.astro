@@ -78,18 +78,28 @@ const navLinks = [
     </main>
 
     <footer class="border-t border-zinc-200 dark:border-zinc-800 mt-24">
-      <div class="max-w-4xl mx-auto px-6 py-8 text-center text-sm text-zinc-500 dark:text-zinc-400">
-        <p>
-          &copy; {new Date().getFullYear()} Huynh Thien Tung. All rights reserved.
-          &nbsp;·&nbsp;
+      <div class="max-w-4xl mx-auto px-6 pt-10 pb-6 flex flex-col items-center gap-6 text-sm text-zinc-500 dark:text-zinc-400">
+        <div class="flex items-center gap-6">
           <a
             href="https://huynhthientung.com"
             target="_blank"
             rel="noopener"
             class="hover:text-zinc-900 dark:hover:text-zinc-200 transition-colors"
           >
-            huynhthientung.com ↗
+            huynhthientung.com
           </a>
+          <a
+            href="https://www.linkedin.com/in/huynhthientung"
+            target="_blank"
+            rel="noopener"
+            class="hover:text-zinc-900 dark:hover:text-zinc-200 transition-colors"
+          >
+            LinkedIn
+          </a>
+        </div>
+        <div class="w-full max-w-lg border-t border-zinc-200 dark:border-zinc-800"></div>
+        <p class="text-center text-xs text-zinc-400 dark:text-zinc-500">
+          &copy; {new Date().getFullYear()} Huynh Thien Tung. All rights reserved.
         </p>
       </div>
     </footer>
